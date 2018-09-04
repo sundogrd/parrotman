@@ -32,21 +32,18 @@ class Parrotman {
     this._record(audioContext);
   }
   stopRecording(format, filename, callback) {
-
     // stop the media stream -- mediaStream.stop() is deprecated since Chrome 45
     if (typeof(this.mediaStream.stop) === 'function') {
       this.mediaStream.stop();
     } else {
       this.mediaStream.getTracks()[0].stop();
     }
-
     // stop Recorder.js
     this.rec.stop();
 
     // export it to WAV or Uint8Array
     this.rec.exportWAV((e) => {
       this.clear();
-
       if (format === 'wav') {
         Recorder.forceDownload(e, '' + filename + '.wav');
       } else if (format === 'Uint8Array') {
